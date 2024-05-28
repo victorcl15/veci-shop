@@ -6,6 +6,8 @@ import {
   eliminarProducto,
   getCategorias,
   getProductosPorUsuario,
+  getSubCategoriasPorCategoria,
+  getSubCategoriaNinguno,
 } from "../services/gestionProducto";
 import { ModalEditarProducto } from "../modules/ModalEditarProducto";
 import { ModalCrearProducto } from "../modules/ModalCrearProducto";
@@ -16,6 +18,8 @@ export function GestionProductoController() {
     const { usuario, login, logout } = useLogin()
   const [productosUsuario, setProductosUsuario] = useState([]);
   const [tiposCategorias, setTiposCategorias] = useState([]);
+  const [tiposSubCategorias, setTiposSubCategorias] = useState([]);
+  const [tiposSubCategoriaNinguno, setTiposSubCategoriaNinguno] = useState("");
   const [openEdit, setOpenEdit] = useState(false);
   const [editedData, setEditedData] = useState({});
   const [recoveredData, setRecoveredData] = useState({});
@@ -60,6 +64,46 @@ export function GestionProductoController() {
       }
   } else {
     setTiposCategorias([]);
+  }
+  };
+
+  const requestSubCategorias = async (id) => {
+    const arraySubCategorias = await getSubCategoriasPorCategoria(id);
+
+    //console.log(arrayCategorias);
+    //setTiposCategorias(arrayCategorias);
+
+    if(arraySubCategorias.status !== false) {
+      if(Array.isArray(arraySubCategorias)) {
+
+        console.log(arraySubCategorias);
+        //console.log(arrayProductos);
+        setTiposSubCategorias(arraySubCategorias);
+      } else {
+        return;
+      }
+  } else {
+    setTiposSubCategorias([]);
+  }
+  };
+
+  const requestSubCategoriaNinguno = async () => {
+    const arraySubCategorias = await getSubCategoriaNinguno();
+
+    //console.log(arrayCategorias);
+    //setTiposCategorias(arrayCategorias);
+
+    if(arraySubCategorias.status !== false) {
+      if(Array.isArray(arraySubCategorias)) {
+
+        console.log(arraySubCategorias[0]._id);
+        //console.log(arrayProductos);
+        setTiposSubCategoriaNinguno(arraySubCategorias[0]._id);
+      } else {
+        return;
+      }
+  } else {
+    setTiposSubCategoriaNinguno("");
   }
   };
 
@@ -113,6 +157,7 @@ export function GestionProductoController() {
     console.log("Editar producto", row.nombre);
     console.log("Atributo personalizado:", event.currentTarget.dataset.id);
     requestCategorias();
+    requestSubCategoriaNinguno();
     const { dataset } = event.currentTarget;
     const data = {
       id: dataset.id,
@@ -165,6 +210,15 @@ export function GestionProductoController() {
     });
     console.log(value);
   };
+
+  const handleFieldChangeNewSubCategoria = (fieldName, value) => {
+    setNewData({
+      ...newData,
+      [fieldName]: value,
+    });
+    console.log(value);
+  };
+
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
 
@@ -208,6 +262,7 @@ export function GestionProductoController() {
       "precio",
       "stock",
       "categoria",
+      "sub_categoria",
       "usuario",
       "img",
       "descripcion",
@@ -242,9 +297,13 @@ export function GestionProductoController() {
         isFormModified={isFormModified}
         isDisabled={isDisabled}
         getFieldValue={getFieldValueNew}
+        handleFieldChangeNewSubCategoria={handleFieldChangeNewSubCategoria}
         handleFieldChange={handleFieldChangeNew}
         handleSubmit={handleSubmitNew}
         tiposCategorias={tiposCategorias}
+        tiposSubCategorias={tiposSubCategorias}
+        tiposSubCategoriaNinguno={tiposSubCategoriaNinguno}
+        requestSubCategorias={requestSubCategorias}
       ></ModalCrearProducto>
       <ModalEliminarProducto
         openDelete={openDelete}

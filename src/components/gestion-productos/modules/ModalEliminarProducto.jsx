@@ -25,7 +25,7 @@ export function ModalEliminarProducto({
         <DialogTitle id="alert-dialog-title">{"¡Importante!"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Está seguro de eliminar el tipo de carnet: {infoDelete.nombre} ?
+            ¿Está seguro de eliminar el producto: {infoDelete.nombre} ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -31,6 +31,10 @@ export function ModalCrearProducto({
   handleFieldChange,
   handleSubmit,
   tiposCategorias,
+  handleFieldChangeNewSubCategoria,
+  tiposSubCategorias,
+  tiposSubCategoriaNinguno,
+  requestSubCategorias,
 }) {
   const style = {
     position: "absolute",
@@ -152,12 +156,15 @@ export function ModalCrearProducto({
                       labelId="demo-simple-select-autowidth-label"
                       id="demo-simple-select-autowidth"
                       value={
-                        getFieldValue("categoria") === "Ninguna"
-                          ? ""
-                          : getFieldValue("categoria")
+                        getFieldValue("categoria")
                       }
-                      onChange={(e) =>
-                        handleFieldChange("categoria", e.target.value)
+                      onChange={(e) => {
+                        handleFieldChange("categoria", e.target.value);
+                        requestSubCategorias(e.target.value);
+                        if(e.target.value === "665551ca4550954cc0b8ce27"){
+                          handleFieldChangeNewSubCategoria("sub_categoria", tiposSubCategoriaNinguno)
+                        }
+                      }
                       }
                       style={{ fontSize: "15px", padding: "1px" }}
                       disabled={isDisabled}
@@ -179,6 +186,47 @@ export function ModalCrearProducto({
                     </Select>
                   </FormControl>
                 </Box>
+                {getFieldValue("categoria") !== "Ninguna" ? (
+                  <>
+                    <Box>
+                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Sub-Categoria
+                      </Typography>
+                      <FormControl sx={{ minWidth: 20 }}>
+                        <Select
+                          labelId="demo-simple-select-autowidth-label"
+                          id="demo-simple-select-autowidth"
+                          value={
+                            getFieldValue("sub_categoria") === "Ninguna"
+                              ? ""
+                              : getFieldValue("sub_categoria")
+                          }
+                          onChange={(e) =>
+                            handleFieldChange("sub_categoria", e.target.value)
+                          }
+                          style={{ fontSize: "15px", padding: "1px" }}
+                          disabled={isDisabled}
+                          displayEmpty
+                        >
+                          <MenuItem value={""}>Seleccione...</MenuItem>
+                          {tiposSubCategorias
+                            ? tiposSubCategorias.map((sub_categoria) => {
+                                return (
+                                  <MenuItem
+                                    key={sub_categoria._id}
+                                    value={sub_categoria._id}
+                                  >
+                                    {sub_categoria.nombre}
+                                  </MenuItem>
+                                );
+                              })
+                            : []}
+                        </Select>
+                      </FormControl>
+                    </Box>{" "}
+                  </>
+                ) : (""
+                )}
               </Box>
             </div>
             <Divider variant="middle" />

@@ -47,6 +47,54 @@ const getProductosPorUsuario = async (id) => {
     }
   };
 
+  const getSubCategoriasPorCategoria = async (id) => {
+    try {
+      const response = await fetch(
+        apiUrl+`sub_categorias/sub_categorias_por_categoria/${id}`,
+        {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+      );
+      const result = await response.json();
+     // console.log(result);
+      return result;
+      // const { users } = await response.json();
+      
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+      const message = "Error del servidor al realizar la solicitud";
+      const status = false;
+      return { status, message };
+    }
+  };
+
+  const getSubCategoriaNinguno = async () => {
+    try {
+      const response = await fetch(
+        apiUrl+`sub_categorias/ninguno/`,
+        {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+      );
+      const result = await response.json();
+     // console.log(result);
+      return result;
+      // const { users } = await response.json();
+      
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+      const message = "Error del servidor al realizar la solicitud";
+      const status = false;
+      return { status, message };
+    }
+  };
+
   const actualizarProducto = async (id, editarProducto) => {
     try {
       const response = await fetch(
@@ -116,5 +164,7 @@ const getProductosPorUsuario = async (id) => {
     getCategorias,
     actualizarProducto,
     crearProducto,
-    eliminarProducto
+    eliminarProducto,
+    getSubCategoriasPorCategoria,
+    getSubCategoriaNinguno
   }
