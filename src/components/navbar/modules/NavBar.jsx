@@ -25,6 +25,7 @@ import { LoginController } from "../../login/controllers/LoginController";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -44,7 +45,6 @@ export function NavBar({
   open,
   handleClose,
 }) {
-
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -86,10 +86,13 @@ export function NavBar({
   }));
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ bgcolor: "#ebdfc6" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            <img
+              src="veci - shop.png"
+              style={{ width: "10%", height: "10%", objectFit: "cover" }}
+            />
             <Typography
               variant="h6"
               noWrap
@@ -105,7 +108,7 @@ export function NavBar({
                 textDecoration: "none",
               }}
             >
-              LOGO
+              VECI-SHOP
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -183,9 +186,9 @@ export function NavBar({
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title="Abrir configuración">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <SettingsIcon />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -205,14 +208,18 @@ export function NavBar({
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem data-namesetting={setting} key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    data-namesetting={setting}
+                    key={setting}
+                    onClick={handleCloseUserMenu}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
           </Toolbar>
-          <Search style={{ marginBottom: "20px" }}>
+          {/* <Search style={{ marginBottom: "20px" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -223,19 +230,15 @@ export function NavBar({
                 console.log(e.target.value);
               }}
             />
-          </Search>
+          </Search> */}
         </Container>
       </AppBar>
       <Stack spacing={2} sx={{ width: "100%" }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
             No eres un vendedor, actualiza tus datos
           </Alert>
-        </Snackbar>     
+        </Snackbar>
       </Stack>
     </>
   );
