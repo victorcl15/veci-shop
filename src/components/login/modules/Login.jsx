@@ -53,13 +53,6 @@ const useStyles = () => {
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
-    image: {
-      backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-      backgroundRepeat: 'no-repeat',
-      backgroundColor: theme.palette.grey[50],
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
   };
 };
 
