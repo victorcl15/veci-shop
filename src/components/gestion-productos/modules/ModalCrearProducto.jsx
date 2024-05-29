@@ -160,9 +160,8 @@ export function ModalCrearProducto({
                       }
                       onChange={(e) => {
                         handleFieldChange("categoria", e.target.value);
-                        requestSubCategorias(e.target.value);
-                        if(e.target.value === "665551ca4550954cc0b8ce27"){
-                          handleFieldChangeNewSubCategoria("sub_categoria", tiposSubCategoriaNinguno)
+                        if(e.target.value !== ""){
+                          requestSubCategorias(e.target.value);
                         }
                       }
                       }
@@ -186,7 +185,7 @@ export function ModalCrearProducto({
                     </Select>
                   </FormControl>
                 </Box>
-                {getFieldValue("categoria") !== "Ninguna" ? (
+                {getFieldValue("categoria") !== "" && getFieldValue("categoria") !== "665551ca4550954cc0b8ce27" ? (
                   <>
                     <Box>
                       <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -195,7 +194,7 @@ export function ModalCrearProducto({
                       <FormControl sx={{ minWidth: 20 }}>
                         <Select
                           labelId="demo-simple-select-autowidth-label"
-                          id="demo-simple-select-autowidth"
+                          id="demo-simple-select-autowidth-123"
                           value={
                             getFieldValue("sub_categoria") === "Ninguna"
                               ? ""

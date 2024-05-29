@@ -10,7 +10,7 @@ export function GestionProducto({ productosUsuario, handleOpenEdit, handleOpenDe
     { field: "nombre", headerName: "Nombre" },
     { field: "precio", headerName: "Precio", type: "number" },
     { field: "stock", headerName: "Stock", type: "number" },
-    { field: "categoria", headerName: "Categoria" },
+    { field: "sub_categoria", headerName: "Sub-Categoria" },
     { field: "acciones", headerName: "Acciones", renderCell: (params) => (
         <>
         <IconButton data-id={params.row.id} onClick={(event) => handleOpenEdit(event, params.row)}>
@@ -30,12 +30,14 @@ export function GestionProducto({ productosUsuario, handleOpenEdit, handleOpenDe
           nombre: producto.nombre,
           precio: producto.precio,
           stock: producto.stock,
-          categoria:
-            producto.categoria !== null ? producto.categoria.nombre : "Ninguna",
+          sub_categoria:
+            producto.sub_categoria !== null ? producto.sub_categoria.nombre : "Ninguna",
             usuario: producto.usuario !== null ? producto.usuario : "Ninguna",
             img: producto.img !== null ? producto.img : "Ninguna",
             descripcion: producto.descripcion !== null ? producto.descripcion : "",
-            categoria_id: producto.categoria ? producto.categoria._id : ""
+            sub_categoria_id: producto.sub_categoria ? producto.sub_categoria._id : "",
+            categoria_id: producto.sub_categoria ? producto.sub_categoria.categoria : ""
+
         });
       })
     : rows.push([]);

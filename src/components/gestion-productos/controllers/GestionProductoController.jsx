@@ -121,6 +121,7 @@ export function GestionProductoController() {
 
   const requestEliminarProducto = async (idProducto) => {
     const productoEliminar = await eliminarProducto(idProducto);
+    await requestProductosPorUsuario(usuario._id);
     console.log(productoEliminar);
     //setTiposCategorias(arrayCategorias);
   };
@@ -132,12 +133,14 @@ export function GestionProductoController() {
     setOpenNew(true);
     setIsDisabled(false);
     requestCategorias();
+    requestSubCategoriaNinguno();
     //const { dataset } = event.currentTarget;
     const data = {
       nombre: "",
       precio: "",
       stock: "",
       categoria: "",
+      sub_categoria: "",
       usuario: usuario._id,
       img: "",
       descripcion: "",
@@ -156,15 +159,15 @@ export function GestionProductoController() {
     setOpenEdit(true);
     console.log("Editar producto", row.nombre);
     console.log("Atributo personalizado:", event.currentTarget.dataset.id);
-    requestCategorias();
     requestSubCategoriaNinguno();
     const { dataset } = event.currentTarget;
+    requestSubCategorias(row.categoria_id);
     const data = {
       id: dataset.id,
       nombre: row.nombre,
       precio: row.precio,
       stock: row.stock,
-      categoria: row.categoria_id,
+      sub_categoria: row.sub_categoria_id,
       usuario: row.usuario._id,
       img: row.img,
       descripcion: row.descripcion,
@@ -186,7 +189,7 @@ export function GestionProductoController() {
     e.preventDefault();
     console.log(`ID: ${infoDelete.id}`);
     requestEliminarProducto(infoDelete.id);
-    requestProductosPorUsuario(usuario._id);
+    //requestProductosPorUsuario(usuario._id);
     handleCloseDelete();
   };
   const getFieldValueEdit = (fieldName) => {
@@ -204,10 +207,31 @@ export function GestionProductoController() {
   };
 
   const handleFieldChangeNew = (fieldName, value) => {
-    setNewData({
-      ...newData,
-      [fieldName]: value,
-    });
+    if(value === "665551ca4550954cc0b8ce27"){
+      setNewData({
+        ...newData,
+        [fieldName]: value,
+        sub_categoria: tiposSubCategoriaNinguno
+      });
+    } else if(fieldName === "categoria" && value !== "665551ca4550954cc0b8ce27") {
+      setNewData({
+        ...newData,
+        [fieldName]: value,
+        sub_categoria: ""
+      });
+    } else if(fieldName === "categoria" && value === "") {
+      setNewData({
+        ...newData,
+        [fieldName]: value,
+        sub_categoria: ""
+      });
+    } else {
+
+      setNewData({
+        ...newData,
+        [fieldName]: value,
+      });
+    }
     console.log(value);
   };
 
@@ -289,7 +313,7 @@ export function GestionProductoController() {
         getFieldValue={getFieldValueEdit}
         handleFieldChange={handleFieldChangeEdit}
         handleSubmit={handleSubmitEdit}
-        tiposCategorias={tiposCategorias}
+        tiposSubCategorias={tiposSubCategorias}
       ></ModalEditarProducto>
       <ModalCrearProducto
         open={openNew}

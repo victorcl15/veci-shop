@@ -30,7 +30,7 @@ export function ModalEditarProducto({
   name,
   handleFieldChange,
   handleSubmit,
-  tiposCategorias
+  tiposSubCategorias
 }) {
   const style = {
     position: "absolute",
@@ -142,21 +142,21 @@ export function ModalEditarProducto({
                 </Box>
                 <Box>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Categoria
+                  Sub-Categoria
                 </Typography>
                 <FormControl sx={{ minWidth: 20 }}>
                   <Select
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-select-autowidth"
-                    value={getFieldValue("categoria") === "Ninguna" ? "" : getFieldValue("categoria")}
-                    onChange={(e) => handleFieldChange("categoria", e.target.value)}
+                    value={getFieldValue("sub_categoria")}
+                    onChange={(e) => handleFieldChange("sub_categoria", e.target.value)}
                     style={{ fontSize: "15px", padding: "1px" }}
                     disabled={isDisabled}
                     displayEmpty
                   >
                     <MenuItem value={""}>Seleccione...</MenuItem>
-                    {tiposCategorias
-                      ? tiposCategorias.map((categoria) => {
+                    {tiposSubCategorias
+                      ? tiposSubCategorias.map((categoria) => {
                           return (
                             <MenuItem key={categoria._id} value={categoria._id}>
                               {categoria.nombre}
